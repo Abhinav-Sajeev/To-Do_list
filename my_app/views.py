@@ -12,7 +12,7 @@ def index(request):
         duration = request.POST['duration']
         status = request.POST['status']
 
-        user = Task.objects.create(name = name,duration = duration,status = status)
+        user = Task.objects.create(user=request.user,name = name,duration = duration,status = status)
         user.save()
         return redirect('display')
     else:    
@@ -78,7 +78,7 @@ def login(request):
 
 
 def display(request):
-    stu = Task.objects.all()
+    stu = Task.objects.filter(user=request.user)
     return render(request,'display.html',{'items':stu})
 
 
